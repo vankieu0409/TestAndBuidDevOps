@@ -1,0 +1,16 @@
+version: '3.9'
+
+networks:
+  iot.network:
+    driver: bridge
+
+services:
+  testandbuiddevops:
+    image: hexabase/testandbuiddevops
+    ports:
+      - 49297:443
+    build:
+      context: .
+      dockerfile: TestAndBuidDevOps/Dockerfile
+    networks:
+      - iot.network

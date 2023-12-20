@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  testandbuiddevops:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionStrings__PostgreSQLConnection=Host=127.0.0.1;Port=5432;Username=postgres;Password=5tNeaVP9dp7b6CKT;Database=DevOps;
+    ports:
+      - "80"
+      - "443"
+   
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
