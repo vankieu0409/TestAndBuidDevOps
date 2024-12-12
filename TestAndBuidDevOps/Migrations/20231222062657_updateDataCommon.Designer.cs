@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TestAndBuidDevOps.Data;
@@ -11,13 +12,15 @@ using TestAndBuidDevOps.Data;
 namespace TestAndBuidDevOps.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231222062657_updateDataCommon")]
+    partial class updateDataCommon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -155,15 +158,18 @@ namespace TestAndBuidDevOps.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal>("NewPrice")
@@ -196,7 +202,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1941)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4718)
                         },
                         new
                         {
@@ -209,7 +215,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1970)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4738)
                         },
                         new
                         {
@@ -222,7 +228,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1974)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4742)
                         },
                         new
                         {
@@ -235,7 +241,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1978)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4745)
                         },
                         new
                         {
@@ -248,7 +254,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1982)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4748)
                         },
                         new
                         {
@@ -261,7 +267,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1985)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4751)
                         },
                         new
                         {
@@ -274,7 +280,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1988)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4754)
                         },
                         new
                         {
@@ -287,7 +293,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1991)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4757)
                         },
                         new
                         {
@@ -300,7 +306,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1994)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4760)
                         },
                         new
                         {
@@ -313,7 +319,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(1998)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4763)
                         },
                         new
                         {
@@ -326,7 +332,7 @@ namespace TestAndBuidDevOps.Migrations
                             NewPrice = 123m,
                             OriginalPrice = 345m,
                             Quantity = 1,
-                            UploadedDate = new DateTime(2024, 7, 31, 9, 50, 55, 182, DateTimeKind.Local).AddTicks(2002)
+                            UploadedDate = new DateTime(2023, 12, 22, 13, 26, 55, 794, DateTimeKind.Local).AddTicks(4766)
                         });
                 });
 
@@ -387,21 +393,21 @@ namespace TestAndBuidDevOps.Migrations
                         new
                         {
                             Id = new Guid("ab251560-a455-40fd-adfd-54f9e150f874"),
-                            ConcurrencyStamp = "89c05a8c-53ed-4400-a3a1-7b0938e1a89f",
+                            ConcurrencyStamp = "39c24a58-eb23-4afc-bb8f-3b59089714a9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = new Guid("8d4b836e-d9fa-4fa9-88c0-9a875d2b7d5c"),
-                            ConcurrencyStamp = "744e68d7-e06e-454c-973f-494f342fd6a4",
+                            ConcurrencyStamp = "196be9ee-9c5f-4ea0-9b88-f2bd050ea434",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = new Guid("f91ec0e5-d768-42e2-8926-de7d3162430f"),
-                            ConcurrencyStamp = "ada90fe9-9d4d-4e32-957c-0f57ab4c2475",
+                            ConcurrencyStamp = "757a8f7c-a999-4d85-a862-9535111e0953",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -496,7 +502,7 @@ namespace TestAndBuidDevOps.Migrations
                             Id = new Guid("fb1eab16-920e-4480-b3ee-01f6e9c15ab5"),
                             AccessFailedCount = 0,
                             Address = "Tuân Chính -Vĩnh Tường - Vĩnh Phúc",
-                            ConcurrencyStamp = "c6ef703f-dcd2-4580-a1f5-6730e1a3f9f6",
+                            ConcurrencyStamp = "e719779e-b512-4ed4-819b-b763710c35f0",
                             Decriptions = "",
                             DisplayName = "Bậu",
                             Email = "vankieu0409@gmail.com",
@@ -504,13 +510,13 @@ namespace TestAndBuidDevOps.Migrations
                             Image = "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/8/18/1082204/Leesuk.jpg",
                             IsDeleted = false,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2024, 7, 31, 2, 50, 55, 182, DateTimeKind.Unspecified).AddTicks(2212), new TimeSpan(0, 0, 0, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2023, 12, 22, 6, 26, 55, 794, DateTimeKind.Unspecified).AddTicks(4868), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "VANKIEU0409@GMAIL.COM",
                             NormalizedUserName = "VANKIEU0409@GMAIL.COM",
                             PasswordHash = "AQAAAAEAACcQAAAAEMfrd51YGMSLzKs7NWUztJV/CKxRqpABxKVBI7+iwpeD82bZA8aBCnr7kKusapiDQw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e7fab83b-6a74-47a6-ac68-adb0a5d8fd64",
+                            SecurityStamp = "89e91078-da56-48e0-9a3e-6c847d4372e0",
                             TwoFactorEnabled = false,
                             UserName = "vankieu0409@gmail.com"
                         },
@@ -519,7 +525,7 @@ namespace TestAndBuidDevOps.Migrations
                             Id = new Guid("6aa93c41-f21f-44e3-8f46-7d76b03574c5"),
                             AccessFailedCount = 0,
                             Address = "Tuân Chính -Vĩnh Tường - Vĩnh Phúc",
-                            ConcurrencyStamp = "41f42174-fa07-49bb-827c-e98adfca82b4",
+                            ConcurrencyStamp = "2e378072-8156-48ec-9647-aa0cb06aa17d",
                             Decriptions = " Chị rất nóng tính",
                             DisplayName = "Chị Nhà Cục Súc",
                             Email = "kieunvph14806@fpt.edu.vn",
@@ -527,13 +533,13 @@ namespace TestAndBuidDevOps.Migrations
                             Image = "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/8/18/1082204/Leesuk.jpg",
                             IsDeleted = false,
                             LockoutEnabled = false,
-                            LockoutEnd = new DateTimeOffset(new DateTime(2024, 7, 31, 2, 50, 55, 182, DateTimeKind.Unspecified).AddTicks(2240), new TimeSpan(0, 0, 0, 0, 0)),
+                            LockoutEnd = new DateTimeOffset(new DateTime(2023, 12, 22, 6, 26, 55, 794, DateTimeKind.Unspecified).AddTicks(4900), new TimeSpan(0, 0, 0, 0, 0)),
                             NormalizedEmail = "KIEUNVPH14806@FPT.EDU.VN",
                             NormalizedUserName = "KIEUNVPH14806@FPT.EDU.VN",
                             PasswordHash = "AQAAAAEAACcQAAAAEMfrd51YGMSLzKs7NWUztJV/CKxRqpABxKVBI7+iwpeD82bZA8aBCnr7kKusapiDQw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7b58d628-7e6f-4dab-bfa2-2b726c358de8",
+                            SecurityStamp = "7d4f7c36-f8f0-4b74-8892-08cf807df2c8",
                             TwoFactorEnabled = false,
                             UserName = "kieunvph14806@fpt.edu.vn"
                         });

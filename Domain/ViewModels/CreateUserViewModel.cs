@@ -16,5 +16,4 @@ public class CreateUserViewModel
     [EmailAddress(ErrorMessage = "Email không đúng định dạng!")]
     public string Email { get; set; } = string.Empty;
 
-    public string Role { get; set; }
 }

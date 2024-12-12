@@ -22,15 +22,15 @@ namespace TestAndBuidDevOps.Controllers
             _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
             _httpContextAccessor = httpContextAccessor;
         }
-        [HttpPost("register")]
         [AllowAnonymous]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDto>> RegisterAsync(CreateUserViewModel request)
         {
             var response = await _authenticationService.RegisterUser(request);
             return Ok(response);
         }
-        [HttpPost("login")]
         [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<ActionResult<UserDto>> LoginAsync(LoginUserViewModel request)
         {
             var response = await _authenticationService.Login(request);

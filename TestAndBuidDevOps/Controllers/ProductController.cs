@@ -1,11 +1,12 @@
-﻿using TestAndBuidDevOps.Services.ProductService;
-using Domain.Dtos;
+﻿using Domain.Dtos;
 using Domain.Entities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
+
+using TestAndBuidDevOps.Services.ProductService;
 
 namespace TestAndBuidDevOps.Controllers
 {
@@ -22,7 +23,7 @@ namespace TestAndBuidDevOps.Controllers
             _env = env;
         }
 
-        [HttpGet("admin"), Authorize(Roles = "Administrator,Employee")]
+        [HttpGet("admin")]
         public async Task<ActionResult<List<ProductEntity>>> GetAdminProducts(ODataQueryOptions<ProductEntity> queryOptions)
         {
             var result = await _productService.GetAdminProducts();
@@ -30,21 +31,21 @@ namespace TestAndBuidDevOps.Controllers
             return Ok(castedResult);
         }
 
-        [HttpPost, Authorize(Roles = "Administrator,Employee")]
+        [HttpPost("admin")]
         public async Task<ActionResult<ProductEntity>> CreateProduct(ProductEntity product)
         {
             var result = await _productService.CreateProduct(product);
             return Ok(result);
         }
 
-        [HttpPut, Authorize(Roles = "Administrator,Employee")]
+        [HttpPut]
         public async Task<ActionResult<ProductEntity>> UpdateProduct(ProductEntity product)
         {
             var result = await _productService.UpdateProduct(product);
             return Ok(result);
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = "Administrator,Employee")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteProduct(Guid id)
         {
             var result = await _productService.DeleteProduct(id);
@@ -52,6 +53,7 @@ namespace TestAndBuidDevOps.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<ProductEntity>>> GetProducts(ODataQueryOptions<ProductEntity> queryOptions)
         {
             var result = await _productService.GetProductsAsync();

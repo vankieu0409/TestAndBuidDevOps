@@ -1,0 +1,12 @@
+gitlabUrl: "https://gitlab.com/"
+runnerRegistrationToken: "glrt-zFajz-JRoQwt1XDyz928"
+runners:
+  config: |
+    [[runners]]
+      name = "kubernetes"
+      url = "https://gitlab.com/"
+      token = "glrt-zFajz-JRoQwt1XDyz928"
+      executor = "kubernetes"
+      [runners.kubernetes]
+        namespace = "kubernetes"
+        privileged = true

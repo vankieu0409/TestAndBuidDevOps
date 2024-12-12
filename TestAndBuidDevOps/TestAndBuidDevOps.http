@@ -1,0 +1,6 @@
+@ TestAndBuidDevOps_HostAddress = http://localhost:5186
+
+GET {{ TestAndBuidDevOps_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -44,6 +44,7 @@ namespace TestAndBuidDevOps.Services.ProductService
 
         public async Task<List<ProductEntity>> GetAdminProducts()
         {
+            Console.WriteLine("\n Get Data \n\n");
             var response = await _productRepository.AsQueryable().ToListAsync();
             return response;
         }
@@ -62,28 +63,17 @@ namespace TestAndBuidDevOps.Services.ProductService
         public async Task<ProductEntity> GetProductAsync(Guid productId)
         {
             var response = new ProductEntity();
-            ProductEntity product = null;
 
-            if (_httpContextAccessor.HttpContext.User.IsInRole("Admin"))
+            if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User.IsInRole("Admin"))
             {
-                response = await _productRepository.AsQueryable().FirstOrDefaultAsync(p => p.Id == productId && !p.IsDeleted);
+                response = await _productRepository.AsQueryable().FirstOrDefaultAsync(p => p.Id == productId);
             }
             else
             {
                 response = await _productRepository.AsQueryable()
                     .FirstOrDefaultAsync(p => p.Id == productId && !p.IsDeleted);
             }
-
-            if (product == null)
-            {
-                return product;
-            }
-            else
-            {
-                return response;
-            }
-
-
+            return  response;
         }
 
         public async Task<List<ProductEntity>> GetProductsAsync()

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-app-deployment  # Name of the deployment
+spec:
+  replicas: 2  # Number of desired replicas (pods)
+  selector:
+    matchLabels:
+      app: kubernetes-app  # Label selector to match pods controlled by this deployment
+  template:
+    metadata:
+      labels:
+        app: kubernetes-app  # Labels applied to pods created by this deployment
+    spec:
+      containers:
+        - name: kubernetes-app  # Name of the container
+          image: kieu29v5/testdevops:latest  # Docker image to use
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80  # Port to expose within the pod
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-app-service  # Name of the service
+spec:
+  selector:
+    app: kubernetes-app  # Label selector to target pods with this label
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort  # Type of service (other options include ClusterIP, LoadBalancer, etc.)

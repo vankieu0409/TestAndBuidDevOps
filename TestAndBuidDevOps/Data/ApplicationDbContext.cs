@@ -1,8 +1,10 @@
-﻿using Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Domain.Entities;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace TestAndBuidDevOps.Data;
 
@@ -13,12 +15,6 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, Gu
         this.ChangeTracker.LazyLoadingEnabled = false;
         this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.LogTo(Console.WriteLine);
     }
     public virtual DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
     public virtual DbSet<ProductEntity> Products { get; set; }
@@ -193,19 +189,19 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, Gu
             Id = Guid.Parse("ab251560-a455-40fd-adfd-54f9e150f874"),
             Name = "Administrator",
             ConcurrencyStamp = Guid.NewGuid().ToString(),
-            NormalizedName = "Administrator"
+            NormalizedName = "ADMINISTRATOR"
         }, new RoleEntity()
         {
             Id = Guid.Parse("8d4b836e-d9fa-4fa9-88c0-9a875d2b7d5c"),
             Name = "Employee",
             ConcurrencyStamp = Guid.NewGuid().ToString(),
-            NormalizedName = "Employee"
+            NormalizedName = "EMPLOYEE"
         }, new RoleEntity()
         {
             Id = Guid.Parse("f91ec0e5-d768-42e2-8926-de7d3162430f"),
             Name = "Customer",
             ConcurrencyStamp = Guid.NewGuid().ToString(),
-            NormalizedName = "Customer"
+            NormalizedName = "CUSTOMER"
         });
 
 
@@ -214,12 +210,12 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, Gu
         {
             Id = Guid.Parse("fb1eab16-920e-4480-b3ee-01f6e9c15ab5"),
             UserName = "vankieu0409@gmail.com",
-            NormalizedUserName = "vankieu0409@gmail.com",
+            NormalizedUserName = "VANKIEU0409@GMAIL.COM",
             SecurityStamp = Guid.NewGuid().ToString(),
             Email = "vankieu0409@gmail.com",
             PasswordHash = "AQAAAAEAACcQAAAAEMfrd51YGMSLzKs7NWUztJV/CKxRqpABxKVBI7+iwpeD82bZA8aBCnr7kKusapiDQw==",
             EmailConfirmed = true,
-            NormalizedEmail = "vankieu0409@gmail.com",
+            NormalizedEmail = "VANKIEU0409@GMAIL.COM",
             PhoneNumber = "",
             PhoneNumberConfirmed = false,
             LockoutEnabled = false,
@@ -236,12 +232,12 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, Gu
         {
             Id = Guid.Parse("6aa93c41-f21f-44e3-8f46-7d76b03574c5"),
             UserName = "kieunvph14806@fpt.edu.vn",
-            NormalizedUserName = "kieunvph14806@fpt.edu.vn",
+            NormalizedUserName = "KIEUNVPH14806@FPT.EDU.VN",
             SecurityStamp = Guid.NewGuid().ToString(),
             Email = "kieunvph14806@fpt.edu.vn",
             PasswordHash = "AQAAAAEAACcQAAAAEMfrd51YGMSLzKs7NWUztJV/CKxRqpABxKVBI7+iwpeD82bZA8aBCnr7kKusapiDQw==",
             EmailConfirmed = true,
-            NormalizedEmail = "kieunvph14806@fpt.edu.vn",
+            NormalizedEmail = "KIEUNVPH14806@FPT.EDU.VN",
             PhoneNumber = "",
             PhoneNumberConfirmed = false,
             LockoutEnabled = false,

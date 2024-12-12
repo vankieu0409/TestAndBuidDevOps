@@ -1,21 +1,22 @@
-﻿using TestAndBuidDevOps.Data;
-using TestAndBuidDevOps.Repositories.RefreshTokenRepositories;
-using TestAndBuidDevOps.Repositories.RoleRepositories;
-using TestAndBuidDevOps.Repositories.UserRepositories;
-using Domain.Dtos;
-using Domain.Entities;
-using Domain.ViewModels;
-
-using AutoMapper;
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+
+using AutoMapper;
+
+using Domain.Dtos;
+using Domain.Entities;
+using Domain.ViewModels;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+
+using TestAndBuidDevOps.Data;
+using TestAndBuidDevOps.Repositories.RefreshTokenRepositories;
+using TestAndBuidDevOps.Repositories.RoleRepositories;
+using TestAndBuidDevOps.Repositories.UserRepositories;
 
 namespace TestAndBuidDevOps.Services.Authentications;
 
@@ -56,12 +57,14 @@ public class AuthenticationService : IAuthenticationService
         if (!await _userManager.CheckPasswordAsync(user, viewModel.Password))
             return new UserDto { Message = "Wrong Password." };
         var signManager = await _signInManager.PasswordSignInAsync(user, viewModel.Password, false, lockoutOnFailure: false);
+        var role = await _userManager.GetRolesAsync(user);
         if (signManager.Succeeded)
         {
             var userResult = _mapper.Map<UserDto>(user);
             var token = CreateToken(user);
             var refreshToken = CreateRefreshToken();
             SetRefreshToken(refreshToken, user);
+            userResult.Role = role.FirstOrDefault();
             userResult.Decriptions = user.Decriptions;
             userResult.Success = true;
             userResult.AccessToken = token;
@@ -93,39 +96,44 @@ public class AuthenticationService : IAuthenticationService
     }
     public async Task<UserDto> RegisterUser(CreateUserViewModel request)
     {
-        var user = new UserEntity
+        await _context.Database.BeginTransactionAsync();
+        var userDto = new UserDto();
+        try
         {
-            Id = Guid.NewGuid(),
-            DisplayName = request.FullName,
-            UserName = request.Email,
-            NormalizedUserName = request.Email,
-            SecurityStamp = Guid.NewGuid().ToString(),
-            Email = request.Email,
-            EmailConfirmed = true,
-            NormalizedEmail = request.Email,
-            PhoneNumber = "",
-            PhoneNumberConfirmed = false,
-            LockoutEnabled = false,
-            AccessFailedCount = 0,
-            IsDeleted = false,
-            ConcurrencyStamp = Guid.NewGuid().ToString(),
-            TwoFactorEnabled = false,
-            Decriptions = "",
-            Address = "",
-            Image = ""
-        };
-        await _userManager.CreateAsync(user, request.Password);
-        await _userManager.AddToRoleAsync(user, request.Role);
-
-
-        await _context.SaveChangesAsync();
-        var userDto = new UserDto()
+            var user = new UserEntity
+            {
+                Id = Guid.NewGuid(),
+                DisplayName = request.FullName,
+                UserName = request.Email,
+                NormalizedUserName = request.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                Email = request.Email,
+                EmailConfirmed = true,
+                NormalizedEmail = request.Email,
+                PhoneNumber = "",
+                PhoneNumberConfirmed = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                IsDeleted = false,
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                TwoFactorEnabled = false,
+                Decriptions = "",
+                Address = "",
+                Image = ""
+            };
+            await _userManager.CreateAsync(user, request.Password);
+            await _userManager.AddToRoleAsync(user, "Administrator");
+            userDto.Id = user.Id;
+            userDto.UserName = user.UserName;
+        }
+        catch
         {
-            Id = user.Id,
-            UserName = user.UserName,
-
-        };
-
+            await _context.Database.RollbackTransactionAsync();
+        }
+        finally
+        {
+            await _context.Database.CommitTransactionAsync();
+        }
         return userDto;
     }
 
@@ -189,7 +197,7 @@ public class AuthenticationService : IAuthenticationService
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName),
-            new(ClaimTypes.Role, userRoles.NormalizedName)
+           // new(ClaimTypes.Role, userRoles.NormalizedName)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:Jwt:Secret"]));
@@ -228,6 +236,7 @@ public class AuthenticationService : IAuthenticationService
             Created = refreshToken.Created,
             Expires = refreshToken.Expires
         };
+
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,

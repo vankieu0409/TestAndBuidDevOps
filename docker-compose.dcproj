@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>334d9c7a-5ac2-4c0e-b6fc-59692ce086a7</ProjectGuid>
+    <ProjectGuid>19f914fd-5d3f-4e5f-af7a-38ba56b4738f</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>testandbuiddevops</DockerServiceName>

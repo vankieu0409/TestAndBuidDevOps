@@ -1,0 +1,92 @@
+
+stages:
+  - build
+  #- test
+  - deploy
+
+image: docker:latest
+
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: unix:///var/run/docker.sock
+  DOCKER_TLS_CERTDIR: ""
+ 
+build:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  tags:
+   - pc-cty
+   #- docker-maycty
+
+# test:
+#   stage: test
+#   script:
+#      - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+#      - docker stop deploykuberapp || true
+#      - docker rm deploykuberapp || true
+#      - echo "Deploying Docker container..."
+#      - docker run -d -p 5001:8080 --name kuberapptest $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+#      - echo "Em Kiều Dép-Óp Deploy Thành Công! "
+#   tags:
+#     - pc-cty
+#   only:
+#      - master
+
+deploy:
+  stage: deploy
+  # variables:
+  #     DOCKER_HOST: tcp://14.188.218.68:2375/
+  script:
+    - docker ps -a
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker stop deploykuberapp || true
+    - docker rm deploykuberapp || true
+    - echo "Deploying Docker container..."
+    - docker run -d -p 5000:8080 --name deploykuberapp $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - echo "Em Kiều Dép-Óp Deploy Thành Công! "
+  tags:
+   - pc-cty
+   #- docker-maycty
+  only:
+    - master
+
+
+
+# # deploy:
+#   stage: deploy
+#   image:
+#     name: bitnami/kubectl:latest
+#     entrypoint: ['']
+#   variables:
+#     PACKAGE_NAME: "kuberapp"
+#     PACKAGE_VERSION: "$CI_COMMIT_TAG"
+    
+#   before_script:
+#     - sed -i "s|\${CI_REGISTRY_IMAGE}|$CI_REGISTRY_IMAGE|g" deployment.yml
+#     - sed -i "s|\${CI_COMMIT_SHA}|$CI_COMMIT_SHA|g" deployment.yml
+#   script:
+#     # - kubectl config get-contexts
+#     # - kubectl config use-context vankieu0409/test_cicd:kuberapp
+#     # - kubectl config set-context gitlab\agents\kuberapp:kuberne
+#     # - kubectl get pods
+#     # - kubectl apply -f deployment.yml
+
+#     - echo "Deploying to Kubernetes cluster..."
+#     - echo $CI_PROJECT_DIR
+#    # - kubectl config set-context gitlab\agents\kuberapp:kubernetes
+#     - kubectl apply -f $CI_PROJECT_DIR/deployment.yml --validate=false
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "master"  
+
+
+
+#docker run -d --name gitlab-runner --restart always -v /var/run/docker.sock:/var/run/docker.sock -v D:/Hexabase/TestAndBuidDevOps/gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest

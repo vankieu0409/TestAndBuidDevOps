@@ -1,0 +1,45 @@
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: gitlab-registry
+# type: kubernetes.io/dockerconfigjson
+# data:
+#   .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS5naXRsYWIuY29tIjp7InVzZXJuYW1lIjoiZXhhbXBsZV91c2VyIiwicGFzc3dvcmQiOiJleGFtcGxlX3Bhc3N3b3JkIiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiYXV0aCI6IlpYaGhiWEJzWlY5MWMyVnlPbVY0WVcxd2JHVmZjR0Z6YzNkdmNtUT0ifX19
+# ---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuber-app-deployment  # Name of the deployment
+spec:
+  replicas: 1  # Number of desired replicas (pods)
+  selector:
+    matchLabels:
+      app: kuber-app  # Label selector to match pods controlled by this deployment
+  template:
+    metadata:
+      labels:
+        app: kuber-app  # Labels applied to pods created by this deployment
+    spec:
+      containers:
+        - name: kuber-app  # Name of the container
+          image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}  # Docker image to use
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080  # Port to expose within the pod
+      # imagePullSecrets:
+      #   - name: gitlab-registry  
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuber-app-service  # Name of the service
+spec:
+  selector:
+    app: kuber-app  # Label selector to target pods with this label
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: NodePort  # Type of service (other options include ClusterIP, LoadBalancer, etc.)
