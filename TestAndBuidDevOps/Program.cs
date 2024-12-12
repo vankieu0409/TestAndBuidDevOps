@@ -14,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddHealthChecks();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,6 +56,7 @@ app.UseCors(crosOption =>
 });
 //app.UseHttpsRedirection();
 app.UseHealthChecks("/health");
+app.UseMiddleware<RequestLoggingMiddleware>();
 // Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
@@ -84,4 +84,25 @@ IEdmModel GetEdmModel()
     odataBuilder.EntitySet<OrderOverviewDto>("OrderOverviewDto");
 
     return odataBuilder.GetEdmModel();
+}
+
+public class RequestLoggingMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly ILogger _logger;
+
+    public RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggingMiddleware> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        var ip = context.Connection.RemoteIpAddress?.ToString();
+        var path = context.Request.Path;
+        _logger.LogInformation($"Request from IP: {ip}, Path: {path}");
+
+        await _next(context);
+    }
 }

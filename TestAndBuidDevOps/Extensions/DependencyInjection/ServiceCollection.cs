@@ -87,7 +87,9 @@ public static class ServiceCollection
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("\n OnForbidden: " + context.Result + '\n');
                         Console.ResetColor();
+                        Console.WriteLine();
                         return Task.CompletedTask;
+
                     },
 
                     OnChallenge = context =>
