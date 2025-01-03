@@ -1,6 +1,27 @@
+
 services:
-  testandbuiddevops:
-    image: testandbuiddevops
+  api:
     build:
-      context: .
-      dockerfile: TestAndBuidDevOps/Dockerfile
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "5000:8080" # Expose nội bộ, Nginx sẽ sử dụng cổng này
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    # volumes:
+    #    - ./nginx/nginx.conf:/etc/nginx/nginx.conf # Mount file cấu hình Nginx
+    ports:
+      - "80:80" # Public trên cổng 80
+    depends_on:
+      - api
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
